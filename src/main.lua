@@ -12,7 +12,6 @@ import "CoreLibs/timer"
 import "CoreLibs/animation"
 import "CoreLibs/save"
 import "CoreLibs/ui"
-import "CoreLibs/strict"
 import "CoreLibs/string"
 import "CoreLibs/ui/gridview"
 
@@ -27,14 +26,38 @@ local player = nil
 --setup function
 
 function setup()
+    local font = playdate.graphics.font.new("assets/img/pulp-font-full-width-table-8-8.png")
     local playerIMG = gfx.image.new("assets/img/player_img")
     assert(playerIMG)
+
+    playdate.ui.crankIndicator:start()
+    playdate.ui.crankIndicator:update()
 
     player = gfx.sprite.new(playerIMG)
     player:moveTo(200, 120)
     player:add()
 
-    local background = gfx.image.new("assets/img/bg_img")
+    --making titlecard and displaying for 3 seconds
+
+    local titleCard = gfx.image.new("assets/img/launchImage.png")
+
+    gfx.sprite.setBackgroundDrawingCallback(
+            function( x, y, width, height )
+                gfx.setClipRect( x, y, width, height ) -- let's only draw the part of the screen that's dirty
+                titleCard:draw( 0, 0 )
+                gfx.clearClipRect() -- clear so we don't interfere with drawing that comes after this
+            end
+    )
+
+    local titleTimer = playdate.timer.new(3000)
+
+    while(titleTimer.value~=0) do
+
+        end
+
+
+
+    local background = gfx.image.new("assets/img/bg_img.png")
     assert(background)
 
     gfx.sprite.setBackgroundDrawingCallback(
@@ -47,23 +70,25 @@ function setup()
 
 end
 
+setup()
+
 --update function
 
 function playdate.update()
     if playdate.buttonIsPressed( playdate.kButtonUp ) then
-        playerSprite:moveBy( 0, -2 )
+        player:moveBy( 0, -2 )
     end
     if playdate.buttonIsPressed( playdate.kButtonRight ) then
-        playerSprite:moveBy( 2, 0 )
+        player:moveBy( 2, 0 )
     end
     if playdate.buttonIsPressed( playdate.kButtonDown ) then
-        playerSprite:moveBy( 0, 2 )
+        player:moveBy( 0, 2 )
     end
     if playdate.buttonIsPressed( playdate.kButtonLeft ) then
-        playerSprite:moveBy( -2, 0 )
+        player:moveBy( -2, 0 )
     end
 
     gfx.sprite.update()
     playdate.timer.updateTimers()
-    
+
 end
