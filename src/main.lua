@@ -27,11 +27,43 @@ local player = nil
 --setup function
 
 function setup()
+    local playerIMG = gfx.image.new("assets/img/player_img")
+    assert(playerIMG)
+
+    player = gfx.sprite.new(playerIMG)
+    player:moveTo(200, 120)
+    player:add()
+
+    local background = gfx.image.new("assets/img/bg_img")
+    assert(background)
+
+    gfx.sprite.setBackgroundDrawingCallback(
+            function( x, y, width, height )
+                gfx.setClipRect( x, y, width, height ) -- let's only draw the part of the screen that's dirty
+                background:draw( 0, 0 )
+                gfx.clearClipRect() -- clear so we don't interfere with drawing that comes after this
+            end
+    )
 
 end
 
 --update function
 
 function playdate.update()
+    if playdate.buttonIsPressed( playdate.kButtonUp ) then
+        playerSprite:moveBy( 0, -2 )
+    end
+    if playdate.buttonIsPressed( playdate.kButtonRight ) then
+        playerSprite:moveBy( 2, 0 )
+    end
+    if playdate.buttonIsPressed( playdate.kButtonDown ) then
+        playerSprite:moveBy( 0, 2 )
+    end
+    if playdate.buttonIsPressed( playdate.kButtonLeft ) then
+        playerSprite:moveBy( -2, 0 )
+    end
+
+    gfx.sprite.update()
+    playdate.timer.updateTimers()
     
 end
