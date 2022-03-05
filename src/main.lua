@@ -14,3 +14,24 @@ import "CoreLibs/save"
 import "CoreLibs/ui"
 import "CoreLibs/strict"
 import "CoreLibs/string"
+import "CoreLibs/ui/gridview"
+
+-- graphics const
+
+local gfx <const> = playdate.graphics
+
+-- player sprite
+
+local player = nil
+
+--setup function
+
+function setup()
+
+end
+
+--update function
+
+function playdate.update()
+    
+end
